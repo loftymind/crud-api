@@ -24,7 +24,7 @@ describe('Scenario 1', () => {
     expect(res.body.age).toEqual(18);
     expect(res.body.hobbies).toEqual(['asdd']);
   });
-  it('With a GET api/users/{userId} request, we try to get the created record by its id (the created record is expected)', async () => {
+  it(' GET request by id)', async () => {
     const res = await request(server).get(`/api/users/${idForTesting}`);
     expect(res.statusCode).toBe(200);
     expect(res.body.username).toEqual('asd');
@@ -125,7 +125,7 @@ describe('Scenario 3', () => {
     expect(res.statusCode).toBe(404);
     expect(res.body).toEqual({ message: 'Route not found' });
   });
-  it('GET concrete user to the route that does not exist', async () => {
+  it('GET user to the route that does not exist', async () => {
     const res = await request(server).get(
       '/api/players/f61a1454-05df-4c49-bfc1-13775338fc41'
     );
