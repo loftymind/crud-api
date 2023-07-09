@@ -35,3 +35,10 @@ export const server = http.createServer(async (req: any, res: http.ServerRespons
   console.log(`Server is running on port ${PORT}`);
 });
 
+if (cluster.isWorker) {
+  process.on('message', (workerData: User[]) => {
+    data = workerData;
+  });
+}
+
+
