@@ -27,12 +27,23 @@ export const getByIdUser = async (
 ) => {
   try {
     const condidate = await getById(id);
-
-    res.writeHead(200, contType);
-    res.end(JSON.stringify(condidate));
+    if(validateUuid(id)){
+    if (!condidate) {
+      res.writeHead(404, contType);
+      res.write(JSON.stringify({message: 'User not found'}));
+      res.end();
+  } else {
+      res.writeHead(200, contType);
+      res.write(JSON.stringify(condidate));
+      res.end();
+  }} else {
+    res.writeHead(400, contType);
+    res.write(JSON.stringify({message: 'Not an uuid'}));
+    res.end();
+}
   } catch (error) {
-    res.writeHead(404, contType);
-    res.end(JSON.stringify({ error: 'Server Error' }));
+    res.writeHead(500, contType);
+    res.end(JSON.stringify({ error: 'Server error' }));
   }
 };
 export const postUser = async (
@@ -96,11 +107,38 @@ export const remove = async (
   id: string
 ) => {
   try {
+        
+    if (validateUuid(id)) {
+        const product = await getById(id);
+
+        if (!product) {
+            res.writeHead(404, contType);
+            res.write(JSON.stringify({message: 'User not found'}));
+            res.end();
+        } else {
+            await deleteUser(id);
+            res.writeHead(204, contType);
+            res.end();
+        }
+    } else {
+        res.writeHead(400, contType);
+        res.write(JSON.stringify({message: 'Not an uuid'}));
+        res.end();
+    }
+    
+    
+} catch (error) {
+    res.writeHead(500, contType);
+    res.write(JSON.stringify({message: 'Server error'}));
+    res.end();
+}
+  /* try {
+    
     await deleteUser(id);
     res.writeHead(204, contType);
     res.end();
   } catch (error) {
     res.writeHead(404, contType);
-    res.end(JSON.stringify({ error: 'Server Error' }));
-  }
+    res.end(JSON.stringify({ error: 'User not Found' }));
+  } */
 };
