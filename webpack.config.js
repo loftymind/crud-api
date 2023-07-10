@@ -5,7 +5,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 export default {
   mode: 'production',
-  entry: './index.ts',
+  entry: { bundle: './index.ts', cluster: './cluster.ts' },
   target: 'node',
   module: {
     rules: [
@@ -20,7 +20,7 @@ export default {
     extensions: ['.ts', '.js'],
   },
   output: {
-    filename: 'bundle.cjs',
+    filename:  '[name].cjs',
     path: path.resolve(__dirname, 'dist'),
   },
 };
